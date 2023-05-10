@@ -1,0 +1,20 @@
+<form action="/signup" method="POST" class="mx-auto w-50">
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="floatingInput" placeholder="username" name="userName">
+  <label for="floatingInput">User name</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+  <label for="floatingPassword">Password</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="password" class="form-control" id="floatingPasswordRepeat" placeholder="Password" name="passwordRepeat">
+  <label for="floatingPassword">Repeat password</label>
+{{#if errorMessage}}
+<div class="alert alert-warning mb-3" role="alert">
+  {{errorMessage}}
+</div>
+{{/if}}
+</div>
+<button type="submit" class="btn btn-primary">Sign up!</button>
+</form>
