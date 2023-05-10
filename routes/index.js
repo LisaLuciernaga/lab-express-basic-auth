@@ -72,6 +72,39 @@ router.get("/login", (req, res, next) => {
   res.render("login");
 });
 
-router.post("/login", (req, res, next) => {});
+router.post("/login", (req, res, next) => {
+  let {username, password} = req.body;
+  console.log("login credentials: " + username, password)
+
+  if(username == "" || password == "") {
+    res.render("login", {errorMessage: "Please enter a valid username and password"});
+    return;
+  }
+
+  User.find({username})
+  .then(users => {
+    if(users.length == 0) {
+      res.render("login", {errorMessage: "The entered credentials don't match any account"});
+      console.log("user doesn't exist", username)
+      return;
+    }
+    let newUser = users[0];
+    if(bcrypt.compareSync(password, newUser.password)) {
+      req.session.currentUser = username; 
+      //User is now logged in
+      console.log("User successfully logged in" + req.session.surrentUser);
+      res.redirect("/profile")
+    } else {
+      res.render("login", {errorMessage: "The entered credentials don't match any account"});
+      return;
+    }
+  })
+});
+
+//Get profile page
+router.get('/profile', (req, res, next) => {
+  res.render('profile')
+})
+
 
 module.exports = router;
